@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 """Returns the status"""
-from flask import Flask, jsonify, Blueprinm
+from flask import Flask, jsonify, Blueprint
 from api.v1.views import app_views
 
 
-status = [
-        {
-            'status': u'OK'
-        }
-]
+status = {
+    'status': 'OK'
+}
 
 
 @app_views.route('/status')
