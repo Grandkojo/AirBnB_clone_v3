@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""A script to register a flask blueprint"""
 
 from flask import Flask
 from models import storage
