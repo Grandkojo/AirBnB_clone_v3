@@ -9,6 +9,8 @@ status = [
             'status': u'OK'
         }
 ]
+
+
 @app_views.route('/status')
 def get_status():
     """Returns the status"""
