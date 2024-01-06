@@ -4,9 +4,11 @@ from flask import Flask, jsonify, Blueprint
 from api.v1.views import app_views
 
 
-status = {
-    'status': 'OK'
-}
+status = [
+    {
+        'status': u'OK'
+    }
+]
 
 
 @app_views.route('/status')
