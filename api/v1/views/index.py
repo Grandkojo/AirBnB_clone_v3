@@ -4,14 +4,7 @@ from flask import Flask, jsonify, Blueprint
 from api.v1.views import app_views
 
 
-status = [
-    {
-        'status': u'OK'
-    }
-]
-
-
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def get_status():
     """Returns the status"""
-    return jsonify(status)
+    return jsonify({'status': "OK"})
