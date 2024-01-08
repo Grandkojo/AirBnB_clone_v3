@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Returns the states"""
+"""Returns the amenities"""
 
 from flask import Flask, jsonify, Blueprint, abort, request
 from api.v1.views import app_views
@@ -26,7 +26,7 @@ def get_amenity(amenity_id):
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_amenity(state_id):
+def delete_amenity(amenity_id):
     """Delets an amenity by id"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
@@ -54,7 +54,7 @@ def create_amenity():
                  strict_slashes=False)
 def update_amenity(amenity_id):
     """Updates an amenity by id"""
-    amenity = storage.get(State, state_id)
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     try:
