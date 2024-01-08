@@ -5,7 +5,7 @@ from flask import Flask, jsonify, Blueprint, abort, request
 from api.v1.views import app_views
 from models import storage
 from models.state import State
-from models.amenities import Amenity
+from models.amenity import Amenity
 
 
 @app_views.route('/amenities', strict_slashes=False)
@@ -26,7 +26,7 @@ def get_amenity(amenity_id):
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_state(state_id):
+def delete_amenity(state_id):
     """Delets an amenity by id"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
@@ -37,7 +37,7 @@ def delete_state(state_id):
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
-def create_state():
+def create_amenity():
     """Creates a new amenity"""
     try:
         data = request.get_json()
@@ -52,7 +52,7 @@ def create_state():
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
-def update_state(amenity_id):
+def update_amenity(amenity_id):
     """Updates an amenity by id"""
     amenity = storage.get(State, state_id)
     if amenity is None:
