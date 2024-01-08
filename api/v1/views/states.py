@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Default RESTful actions"""
 
+
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.state import State
@@ -43,9 +44,6 @@ def create_state():
     except Exception as e:
         return jsonify({"error": "Not a valid JSON"}), 400
 
-    if not data:
-        return jsonify({"error": "Empty JSON"}), 400
-
     if "name" not in data:
         return jsonify({"error": "Missing name"}), 400
 
@@ -65,9 +63,6 @@ def update_state(state_id):
         data = request.get_json()
     except Exception as e:
         return jsonify({"error": "Not a valid JSON"}), 400
-
-    if not data:
-        return jsonify({"error": "Missing name"}), 400
 
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
