@@ -22,8 +22,8 @@ def returnstuff():
 def stuff():
     '''JSON Responses'''
     todos = {'states': State, 'users': User,
-            'amenities': Amenity, 'cities': City,
-            'places': Place, 'reviews': Review}
+             'amenities': Amenity, 'cities': City,
+             'places': Place, 'reviews': Review}
     for values in todos:
         todos[values] = storage.count(todos[values])
     return jsonify(todos)
