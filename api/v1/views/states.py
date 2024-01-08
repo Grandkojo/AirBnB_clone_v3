@@ -67,7 +67,7 @@ def update_state(state_id):
         return jsonify({"error": "Not a valid JSON"}), 400
 
     if not data:
-        return jsonify({"error": "Empty JSON"}), 400
+        return jsonify({"error": "Missing name"}), 400
 
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
