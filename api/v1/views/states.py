@@ -1,52 +1,49 @@
 #!/usr/bin/python3
-"""Default RESTful actions"""
+"""Returns the states"""
 
-
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, Blueprint, abort, request
+from api.v1.views import app_views
 from models import storage
 from models.state import State
-from api.v1.views import app_views
 
 
 @app_views.route('/states', strict_slashes=False)
-def get_all_states():
-    """Retrieves the list of all State objects"""
+def get_states():
+    """Returns a list of all States"""
     states = storage.all(State).values()
     return jsonify([state.to_dict() for state in states])
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False)
 def get_state(state_id):
-    """Retrieves a State object by id"""
+    """Returns a state by id"""
     state = storage.get(State, state_id)
     if state is None:
-        abort(404)
+        return make_response(jsonify({'error': 'Not found'}), 404)
     return jsonify(state.to_dict())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
-    """Deletes a State object by id"""
+    """Delets a state by idd"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    state.delete()
+    storage.delete(state)
     storage.save()
     return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
-    """Creates a State"""
+    """Creates a new state"""
     try:
         data = request.get_json()
     except Exception as e:
-        return jsonify({"error": "Not a valid JSON"}), 400
-
-    if "name" not in data:
+        return jsonify({"error": "Not a JSON"}), 400
+    if 'name' not in data:
         return jsonify({"error": "Missing name"}), 400
-
     new_state = State(**data)
     new_state.save()
     return jsonify(new_state.to_dict()), 201
@@ -54,18 +51,15 @@ def create_state():
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
-    """Updates a State object by id"""
+    """Updates a state by id"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-
-    try:
-        data = request.get_json()
-    except Exception as e:
-        return jsonify({"error": "Not a valid JSON"}), 400
-
+    data = request.get_json()
+    if data is None:
+        abort(404, "Not a JSON")
     for key, value in data.items():
-        if key not in ["id", "created_at", "updated_at"]:
+        if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
     state.save()
     return jsonify(state.to_dict()), 200
