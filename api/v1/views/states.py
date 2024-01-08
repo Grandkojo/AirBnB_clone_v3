@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-# api/v1/views/states.py
+"""Default RESTful actions"""
+
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.state import State
